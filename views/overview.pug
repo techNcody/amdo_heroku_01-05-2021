@@ -41,10 +41,11 @@ html(lang="en")
                         button.btn.btn-warning.btn-lg#logout-btn(name="logout") Logout
                     else
                         button.btn.btn-warning.btn-lg#login-btn(name="login") Login
-                .col-md-2(style="text-align: right")
-                    a(href='#')
-                        i.fa(style="font-size:30px") 
-                        span#lblCartCount.badge.badge-warning  4
+                if userName
+                    .col-md-2(style="text-align: right")
+                        a(href='/addTocartWishlist/getAddToCartPage')
+                            i.fa(style="font-size:30px") 
+                            span#lblCartCount.badge.badge-warning.cart-count= count
                         
             //- .login-greeting
             //-     p Hi Abhijit
@@ -222,3 +223,4 @@ html(lang="en")
             script(src="js/active.js")
             script(src="js/index.js")
             script(src="js/login.js")
+            script(src="js/addToCartWishlist.js")

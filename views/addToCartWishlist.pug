@@ -104,7 +104,7 @@ html(lang="en")
                       th Price
                       th Quantity
                   tbody
-                    each product in products
+                    each product, i in products
                         tr
                             td.cart_product_img
                                 a(href=`/img/product-img/${product.images[0]}`)
@@ -117,10 +117,10 @@ html(lang="en")
                                 .qty-btn.d-flex
                                     p Qty
                                     .quantity
-                                        span.qty-minus(onclick="var effect = document.getElementById('qty'); var qty = effect.value; if( !isNaN( qty ) && qty > 1 ) effect.value--;return false;")
+                                        span.qty-minus(data-productprice=`${product.price}` onclick="var effect = document.getElementById('qty'); var qty = effect.value; if( !isNaN( qty ) && qty > 1 ) effect.value--;return false;")
                                             i.fa.fa-minus(aria-hidden="true")
-                                        input#qty.qty-text(type="number" step="1" min="1" max="300" name="quantity" value="1")
-                                        span.qty-plus(onclick="var effect = document.getElementById('qty'); var qty = effect.value; if( !isNaN( qty )) effect.value++;return false;")
+                                        input#qty.qty-text(type="number" step="1" min="1" max="300" name="quantity" value=`${cartQtyArr[i]}`)
+                                        span.qty-plus(data-productprice=`${product.price}` onclick="var effect = document.getElementById('qty'); var qty = effect.value; if( !isNaN( qty )) effect.value++;return false;")
                                             i.fa.fa-plus(aria-hidden="true")
                     //- tr
                     //-   td.cart_product_img
@@ -162,13 +162,13 @@ html(lang="en")
                 ul.summary-table
                   li
                     span subtotal:
-                    span Rs.#{totalCartAmount}
+                    span.sub-total Rs.#{totalCartAmount}
                   li
                     span delivery:
                     span Free
                   li
                     span total:
-                    span Rs.#{totalCartAmount}
+                    span.total Rs.#{totalCartAmount}
                 .cart-btn.mt-100
                   a.btn.amado-btn.w-100(data-productid=`${products.map(el => {return el.id})}` id="checkout") Checkout
     // ##### Main Content Wrapper End #####
@@ -245,3 +245,4 @@ html(lang="en")
     // Active js
     script(src="/js/active.js")
     script(src="/js/stripe.js")
+    script(src="/js/addToCartWishlist.js")

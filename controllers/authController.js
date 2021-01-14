@@ -56,6 +56,7 @@ exports.login = catchAsync(async (req, res, next) => {
       );
 
     const user = await User.findOne({ email }).select('+password');
+    req.user = user;
 
     if (!user) {
       return res.status(404).json({
@@ -152,6 +153,29 @@ exports.protect = catchAsync(async (req, res, next) => {
     );
 
   req.user = currentUser;
+  next();
+});
+
+exports.isLoggedIn = catchAsync(async (req, res, next) => {
+  let token;
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith('Bearer')
+  ) {
+    token = req.headers.authorization.split(' ')[1];
+  } else if (req.cookies.jwt) {
+    token = req.cookies.jwt;
+  }
+
+  if (!token || token === 'Logged out') return next();
+
+  // const decoded = await jwt.verify(token, process.env.JWT_SECRET);
+  const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+  // console.log(decoded);
+
+  const currentUser = await User.findById(decoded.id);
+
+  if (currentUser) req.user = currentUser;
   next();
 });
 
