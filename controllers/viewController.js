@@ -53,3 +53,52 @@ exports.getMe = catchAsync(async (req, res, next) => {
     }
   });
 });
+
+exports.getAddToCartWishlist = catchAsync(async (req, res, next) => {
+  const productId = req.params.productId;
+  const cart = req.user.cart.slice();
+
+  const productsIdArr = (await Product.find()).map((el) => {
+    return el.id;
+  });
+
+  if (!cart.includes(productId)) {
+    if (productsIdArr.includes(productId)) {
+      cart.push(productId);
+    }
+  }
+  // console.log(cart);
+  const user = await User.findByIdAndUpdate(
+    req.user.id,
+    { cart },
+    { new: true }
+  );
+  // console.log(user);
+  const promises = cart.map((el) => {
+    const product = Product.findById(el);
+    // console.log(product.images);
+    return product;
+  });
+
+  let products = [];
+  Promise.all(promises)
+    .then((result) => {
+      const totalCartAmount = result
+        .map((product) => {
+          return product.price;
+        })
+        .reduce((acc, cur) => {
+          return acc + cur;
+        });
+      res.status(200).render('addToCartWishlist', {
+        title: 'Add to Cart',
+        products: result,
+        totalCartAmount
+      });
+      // products = result.slice();
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  // console.log(products);
+});

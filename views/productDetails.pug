@@ -179,10 +179,14 @@ html(lang="en")
                    br
                 // Add to Cart Form
                 if userName
-                  button.btn.amado-btn(data-productid=`${product.id}`  name="order-product" id="order-product") Order now
+                  .col-lg-6
+                    button.btn.amado-btn(data-productid=`${product.id}`  name="order-product" id="order-product") Order now
+                  .col-lg-6
+                    a(href=`/addToCartWishlist/${product.id}`)
+                      button.btn.amado-btn(data-productid=`${product.id}`  name="add-to-cart" id="add-to-cart") Add to cart
                 else
                   a(href='/login.html')
-                    button.btn.amado-btn Please login to order
+                    button.btn.amado-btn Login
                 //- form.cart.clearfix(method="post")
                 //-   .cart-btn.d-flex.mb-50
                 //-     p Qty
@@ -270,4 +274,4 @@ html(lang="en")
     script(src="/js/active.js")
     script(src='https://unpkg.com/axios/dist/axios.min.js')
     script(src="/js/stripe.js")
-    
+    //- script(src="/js/addToCartWishlist.js")

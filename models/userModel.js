@@ -52,7 +52,14 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     default: true,
     select: false
+  },
+  cart: {
+    type: Array
   }
+  // wishlist: {
+  //   type: mongoose.Schema.ObjectId,
+  //   ref: 'Product'
+  // }
 });
 
 userSchema.pre('save', async function (next) {

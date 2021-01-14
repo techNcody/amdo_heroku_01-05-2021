@@ -7,8 +7,17 @@ const catchAsync = require('../utils/catchAsync');
 exports.getCheckoutSession = catchAsync(async (req, res, next) => {
   // console.log('getCheckoutSession is working');
 
-  const product = await Product.findById(req.params.productId);
-  const image = product.images[0];
+  const products = await Product.find({ _id: { $in: req.params.productId } });
+  const images = products.map((el) => {
+    return el.images[0];
+  });
+  const totalCartAmount = products
+    .map((product) => {
+      return product.price;
+    })
+    .reduce((acc, cur) => {
+      return acc + cur;
+    });
   // console.log(product);
 
   // 2) Create checkout session //

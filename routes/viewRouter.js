@@ -9,5 +9,8 @@ router.get('/', viewController.getOverview);
 router.get('/productDetails', viewController.getProductDetails);
 router.get('/product/:slug', viewController.getProductBySlug);
 router.route('/me').get(authController.protect, viewController.getMe);
+router
+  .route('/addToCartWishlist/:productId')
+  .get(authController.protect, viewController.getAddToCartWishlist);
 
 module.exports = router;
