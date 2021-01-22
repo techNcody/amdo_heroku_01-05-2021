@@ -124,9 +124,14 @@ exports.getAddToCartWishlist = catchAsync(async (req, res, next) => {
   console.log(cart);
 
   // Collecting all the product ids from the product table
-  // const productsIdArr = (await Product.find()).map((el) => {
-  //   return el.id;
-  // });
+  const productsIdArr = (await Product.find()).map((el) => {
+    return el.id;
+  });
+
+  // Check if it fetches the wrong product id
+  if (!productsIdArr.includes(productId)) {
+    return res.status(400).render('/');
+  }
 
   // Check if the item is already in the cart or not, then push it or increase quantity
   // if (cart.length > 0) {
@@ -149,12 +154,16 @@ exports.getAddToCartWishlist = catchAsync(async (req, res, next) => {
   //   });
   // }
   console.log('cart length: ' + cart.length);
+  // Check if the cart is empty
+  // then directly add the product
   if (cart.length === 0) {
     cart.push({
       productId,
       quantity: 1
     });
   } else {
+    // Check if the cart is not empty and already having the same product
+    // then increase the quantity
     let count = 0;
     cart.forEach((el) => {
       if (el.productId === productId) {
@@ -162,6 +171,8 @@ exports.getAddToCartWishlist = catchAsync(async (req, res, next) => {
         count = 1;
       }
     });
+    // Check if the cart is not empty and already not having the same product
+    // then add the product
     if (count === 0) {
       cart.push({
         productId,
@@ -171,6 +182,7 @@ exports.getAddToCartWishlist = catchAsync(async (req, res, next) => {
   }
   console.log(cart);
 
+  // Getting the total cart quantity
   const cartQtyArr = cart.map((el) => {
     return el.quantity;
   });
@@ -196,6 +208,7 @@ exports.getAddToCartWishlist = catchAsync(async (req, res, next) => {
     .then((result) => {
       let totalCartAmount = 0;
       products = result.slice();
+
       // Calculating the total amount summary
       if (products.length > 0) {
         totalCartAmount = result
@@ -209,12 +222,14 @@ exports.getAddToCartWishlist = catchAsync(async (req, res, next) => {
       console.log(totalCartAmount);
 
       // Send the products to the cart page
-      res.status(200).render('addToCartWishlist', {
-        status: 'success',
-        products,
-        totalCartAmount,
-        cartQtyArr
+      res.status(200).json({
+        status: 'success'
       });
+      // res.status(200).render('addToCartWishlist', {
+      //   products,
+      //   totalCartAmount,
+      //   cartQtyArr
+      // });
     })
     .catch((err) => {
       console.log(err);
