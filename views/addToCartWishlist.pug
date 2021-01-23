@@ -103,6 +103,7 @@ html(lang="en")
                       th Name
                       th Price
                       th Quantity
+                      th Remove
                   tbody
                     each product, i in products
                         tr
@@ -122,6 +123,9 @@ html(lang="en")
                                         input#qty.qty-text(type="number" step="1" min="1" max="300" name="quantity" value=`${cartQtyArr[i]}`)
                                         span.qty-plus(data-productprice=`${product.price}` onclick="var effect = document.getElementById('qty'); var qty = effect.value; if( !isNaN( qty )) effect.value++;return false;")
                                             i.fa.fa-plus(aria-hidden="true")
+                            td.close
+                              button.close(type="button" aria-label="Close")
+                              span(aria-hidden="true") ×
                     //- tr
                     //-   td.cart_product_img
                     //-     a(href="#")

@@ -41,10 +41,15 @@ exports.getProductBySlug = catchAsync(async (req, res, next) => {
   const product = await Product.findOne({ slug: req.params.slug });
   // console.log(product.specification);
   // const userName = localStorage.getItem('userName');
+
+  let count = 0;
+
   let userName = null;
   if (req.user) {
     userName = (await User.findById(req.user.id)).name.split(' ')[0];
+    count = req.user.cart.length;
   }
+
   // console.log(userName);
 
   res.status(200).render('productDetails', {
@@ -52,7 +57,8 @@ exports.getProductBySlug = catchAsync(async (req, res, next) => {
     product,
     speci: product.specification,
     userName,
-    images: product.images
+    images: product.images,
+    count
   });
 });
 

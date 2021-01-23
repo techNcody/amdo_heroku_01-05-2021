@@ -5,6 +5,19 @@ html(lang="en")
     meta(name="description" content="")
     meta(http-equiv="X-UA-Compatible" content="IE=edge")
     meta(name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no")
+
+    // For bootstrap
+    //- link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css")
+    //- script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js")
+    //- script(src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js")
+    //- script(src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js")
+    link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css")
+    script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js")
+    script(src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js")
+
+    // For cart icon
+    link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css")
+
     // The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags
     // Title
     title Amado - Furniture Ecommerce Template | Product Details
@@ -14,12 +27,34 @@ html(lang="en")
     link(rel="stylesheet" href="/css/core-style.css")
     link(rel="stylesheet" href="/style.css")
 
-    link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css")
-    script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js")
-    script(src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js")
     script(src='https://js.stripe.com/v3/')
     script(src='https://unpkg.com/axios/dist/axios.min.js')
   body
+    .main
+      // Another variation with a button
+      .row
+          .col-md-5(style="text-align: left")
+              .input-group
+                  input.form-control(type="text" placeholder="Type your keyword here...")
+                  .input-group-append
+                      button.btn.btn-secondary(type="button")
+                          i.fa.fa-search
+          .col-md-3
+              if userName
+                  p.loggedIn-user Hi #{userName.split(' ')[0]}
+              //- else
+              //-     button.btn.btn-warning.btn-lg#login-btn(name="login" style="margin-left: 150px") Login
+          .col-md-2
+              if userName
+                  button.btn.btn-warning.btn-lg#logout-btn(name="logout") Logout
+              else
+                  button.btn.btn-warning.btn-lg#login-btn(name="login") Login
+          if userName
+              .col-md-2(style="text-align: right")
+                  a(href='/addTocartWishlist/getAddToCartPage')
+                      i.fa(style="font-size:30px") 
+                      span#lblCartCount.badge.badge-warning.cart-count= count
+
     // Search Wrapper Area Start
     .search-wrapper.section-padding-100
       .search-close
@@ -60,10 +95,10 @@ html(lang="en")
           ul
             li
               a(href="/") Home
-            li
-              a(href="/shop") Shop
-            li.active
-              a(href="product-details.html") Product
+            //- li
+            //-   a(href="/shop") Shop
+            //- li.active
+            //-   a(href="product-details.html") Product
             li
               a(href="cart.html") Cart
             li
@@ -71,7 +106,7 @@ html(lang="en")
         // Button Group
         .amado-btn-group.mt-30.mb-100
           a.btn.amado-btn.mb-15(href="#") %Discount%
-          a.btn.amado-btn.active(href="#") New this week
+          a.btn.amado-btn(href="#") New this week
         // Cart Menu
         .cart-fav-search.mb-100
           a.cart-nav(href="cart.html")
@@ -175,8 +210,8 @@ html(lang="en")
                   //-   | Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid quae eveniet culpa officia quidem mollitia impedit iste asperiores nisi reprehenderit consequatur, autem, nostrum pariatur enim?
                   p(style="color: #fbb710") Specification
                   each spec in speci
-                   h10 #{spec}
-                   br
+                   h5 #{spec}
+                  //-  br
                 // Add to Cart Form
                 if userName
                   .col-lg-6

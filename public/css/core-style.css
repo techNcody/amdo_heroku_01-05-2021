@@ -394,8 +394,10 @@ img {
 .amado-btn:hover,
 .amado-btn:focus {
   font-size: 18px;
-  color: #ffffff;
-  background-color: #131212;
+  color: #252323;
+  background-color: #f3e1b5;
+  /* color: #ffffff;
+  background-color: #131212; */
 }
 
 /* :: 4.0 Search Wrapper Area CSS */
